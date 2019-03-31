@@ -1,0 +1,37 @@
+package br.ufrn.interpolation.infrastructure.repository.sensor;
+
+import br.ufrn.interpolation.domain.sensor.Sensor;
+import br.ufrn.interpolation.domain.sensor.SensorRepository;
+import br.ufrn.interpolation.domain.DistanceCalculator;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SensorInMemoryRepository implements SensorRepository {
+
+    private final Collection<Sensor> sensorCollection;
+
+    private SensorInMemoryRepository(Collection<Sensor> sensorCollection) {
+        this.sensorCollection = new ArrayList<>(sensorCollection);
+    }
+
+    public static SensorInMemoryRepository fromFile(Path filePath) throws IOException {
+        SensorCSVParser sensorCSVParser = new SensorCSVParser();
+
+        return new SensorInMemoryRepository(sensorCSVParser.parseFile(filePath));
+    }
+
+    @Override
+    public List<AbstractMap.SimpleEntry<Sensor,Double>> findSensorsWithinDistance(double latitude, double longitude, double maximumDistanceInMeters){
+        return sensorCollection.stream()
+                .map(sensor -> new AbstractMap.SimpleEntry<>(sensor, DistanceCalculator.distanceInMeters(latitude, sensor.getLatitude(), longitude, sensor.getLongitude())))
+                .filter(sensorDistancePair -> sensorDistancePair.getValue() < maximumDistanceInMeters)
+                .collect(Collectors.toList());
+    }
+
+}
