@@ -31,8 +31,6 @@ public class TemperatureReporterTests {
         double latitude = 54.964936;
         double longitude = -1.779070;
 
-        System.out.print(LocalDateTime.of(2018, 7, 31, 23, 4).toString());
-
         TemperatureQueryResult queryResult = temperatureReporter.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
 
         assertEquals(15.7, queryResult.getTemperatureValue(),0.000000000000);

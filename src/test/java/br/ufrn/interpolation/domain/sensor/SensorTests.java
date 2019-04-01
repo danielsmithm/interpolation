@@ -13,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class SensorTests {
 
-
     @Test
     public void testCreateSensor() {
         String sensorRow = "99.5923600049,True,\"{'third_party': True, 'fancy_name': 'Wunderground API', 'web_display_name': 'Wunderground API (Third Party)', 'db_name': 'Wunderground', 'document': ''}\",None,ICRAWCRO3,2018-08-29 18:09:00,Weather,-1.778519,54.965347";

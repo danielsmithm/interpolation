@@ -46,11 +46,13 @@ public class TemperatureReporter {
     }
 
     private TemperatureQueryResult assembleResponse(List<AbstractMap.SimpleEntry<Sensor, Double>> sensorsWithinDistance, double temperature) {
-        List<TemperatureQueryResult.SensorDTO> sensorsAsDTO = sensorsWithinDistance.stream().map(sensorAndDistance -> {
-            Sensor sensor = sensorAndDistance.getKey();
+        List<TemperatureQueryResult.SensorDTO> sensorsAsDTO = sensorsWithinDistance.stream()
+                .map(sensorAndDistance -> {
+                    Sensor sensor = sensorAndDistance.getKey();
 
-            return new TemperatureQueryResult.SensorDTO(sensor.getName(), sensor.getLatitude(), sensor.getLongitude(), sensorAndDistance.getValue());
-        }).collect(Collectors.toList());
+                    return new TemperatureQueryResult.SensorDTO(sensor.getName(), sensor.getLatitude(), sensor.getLongitude(), sensorAndDistance.getValue());
+                })
+                .collect(Collectors.toList());
 
         return new TemperatureQueryResult(temperature, sensorsAsDTO);
     }
