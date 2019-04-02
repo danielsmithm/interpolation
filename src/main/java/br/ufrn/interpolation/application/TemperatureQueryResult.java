@@ -21,34 +21,19 @@ public class TemperatureQueryResult {
         return sensorDTOS;
     }
 
-    public static class SensorDTO {
-        private String sensorName;
-        private double latitude;
-        private double longitude;
-        private double distanteInMeters;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        public SensorDTO(String sensorName, double latitude, double longitude, double distanteInMeters) {
-            this.sensorName = sensorName;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.distanteInMeters = distanteInMeters;
-        }
+        TemperatureQueryResult that = (TemperatureQueryResult) o;
 
-        public String getSensorName() {
-            return sensorName;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public double getDistanteInMeters() {
-            return distanteInMeters;
-        }
+        return Double.compare(that.temperatureValue, temperatureValue) == 0;
     }
 
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(temperatureValue);
+        return (int) (temp ^ (temp >>> 32));
+    }
 }

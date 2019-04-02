@@ -10,6 +10,7 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class SensorInMemoryRepository implements SensorRepository {
@@ -17,7 +18,7 @@ public class SensorInMemoryRepository implements SensorRepository {
     private final Collection<Sensor> sensorCollection;
 
     private SensorInMemoryRepository(Collection<Sensor> sensorCollection) {
-        this.sensorCollection = new ArrayList<>(sensorCollection);
+        this.sensorCollection = new CopyOnWriteArrayList<>(sensorCollection);
     }
 
     public static SensorInMemoryRepository fromFile(Path filePath) throws IOException {

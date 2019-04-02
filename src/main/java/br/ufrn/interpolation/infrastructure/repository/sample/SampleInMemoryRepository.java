@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class SampleInMemoryRepository implements SampleRepository {
     private final Collection<Sample> sampleCollection;
 
     private SampleInMemoryRepository(Collection<Sample> sampleCollection) {
-        this.sampleCollection = new ArrayList<>(sampleCollection);
+        this.sampleCollection = new CopyOnWriteArrayList<>(sampleCollection);
     }
 
     public static SampleRepository fromFile(Path samplesFilePath) throws IOException {
