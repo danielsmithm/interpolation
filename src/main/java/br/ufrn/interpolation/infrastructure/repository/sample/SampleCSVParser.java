@@ -61,7 +61,7 @@ public class SampleCSVParser {
      * @throws IOException if any exception occur with the file reading.
      */
     public Collection<Sample> parseFile(Path filePath) throws IOException {
-        return new CsvParser().parseFile(filePath, this::parseToSample);
+        return new CsvParser().parseFileUsingThreads(filePath, this::parseToSample);
     }
 
 }

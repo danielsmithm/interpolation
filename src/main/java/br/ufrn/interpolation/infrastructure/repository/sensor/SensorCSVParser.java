@@ -77,7 +77,7 @@ public class SensorCSVParser {
     }
 
     public Collection<Sensor> parseFile(Path filePath) throws IOException {
-        return new CsvParser().parseFile(filePath, this::parseToSensor);
+        return new CsvParser().parseFileUsingThreads(filePath, this::parseToSensor);
     }
 
 }

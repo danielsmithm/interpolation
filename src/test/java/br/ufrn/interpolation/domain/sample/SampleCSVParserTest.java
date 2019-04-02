@@ -47,6 +47,8 @@ public class SampleCSVParserTest {
         Collection<Sample> samples = new SampleCSVParser().parseFile(path);
 
         assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
 
     }
 
