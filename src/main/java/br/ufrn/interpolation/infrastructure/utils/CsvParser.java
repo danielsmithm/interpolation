@@ -23,9 +23,13 @@ public class CsvParser {
             return new ArrayList<>();
         }
 
-        return fileLines.stream()
-                .map(parsingFunction)
-                .collect(Collectors.toList());
+        List<T> list = new ArrayList<>();
+        for (String fileLine : fileLines) {
+            T t = parsingFunction.apply(fileLine);
+            list.add(t);
+        }
+
+        return list;
 
     }
 

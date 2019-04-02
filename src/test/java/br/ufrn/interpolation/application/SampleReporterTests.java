@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class TemperatureReporterTests {
+public class SampleReporterTests {
 
-    private TemperatureReporter temperatureReporter;
+    private SampleReporter sampleReporter;
 
     @Before
     public void setup() throws IOException {
-        this.temperatureReporter = new TemperatureReporter(SampleInMemoryRepository.fromFile(
+        this.sampleReporter = new SampleReporter(SampleInMemoryRepository.fromFile(
                 Paths.get("src","test","resources", "samples", "data.csv")),
                 SensorInMemoryRepository.fromFile(Paths.get("src","test","resources", "samples", "sensors.csv")));
     }
@@ -31,7 +31,7 @@ public class TemperatureReporterTests {
         double latitude = 54.964936;
         double longitude = -1.779070;
 
-        TemperatureQueryResult queryResult = temperatureReporter.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
+        SampleQueryResult queryResult = sampleReporter.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
 
         assertEquals(15.7, queryResult.getTemperatureValue(),0.000000000000);
 

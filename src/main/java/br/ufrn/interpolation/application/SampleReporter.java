@@ -14,19 +14,19 @@ import static br.ufrn.interpolation.domain.sample.SampleSpecification.sampleColl
 import static br.ufrn.interpolation.domain.sample.SampleSpecification.sampleIsOfSelectedSensors;
 import static br.ufrn.interpolation.domain.sample.SampleSpecification.variableIsTemperature;
 
-public class TemperatureReporter {
+public class SampleReporter {
 
     private static final int MAXIMUM_DISTANCE = 10000;
 
     private final SampleRepository sampleRepository;
     private final SensorRepository sensorRepository;
 
-    public TemperatureReporter(SampleRepository sampleRepository, SensorRepository sensorRepository) {
+    public SampleReporter(SampleRepository sampleRepository, SensorRepository sensorRepository) {
         this.sampleRepository = sampleRepository;
         this.sensorRepository = sensorRepository;
     }
 
-    public TemperatureQueryResult evaluateTemperature(double latitude, double longitude, LocalDateTime dateTime) {
+    public SampleQueryResult evaluateTemperature(double latitude, double longitude, LocalDateTime dateTime) {
 
         List<AbstractMap.SimpleEntry<Sensor, Double>> sensorsWithinDistance = sensorRepository.findSensorsWithinDistance(latitude, longitude, MAXIMUM_DISTANCE);
 
@@ -45,7 +45,7 @@ public class TemperatureReporter {
 
     }
 
-    private TemperatureQueryResult assembleResponse(List<AbstractMap.SimpleEntry<Sensor, Double>> sensorsWithinDistance, double temperature) {
+    private SampleQueryResult assembleResponse(List<AbstractMap.SimpleEntry<Sensor, Double>> sensorsWithinDistance, double temperature) {
         List<SensorDTO> sensorsAsDTO = sensorsWithinDistance.stream()
                 .map(sensorAndDistance -> {
                     Sensor sensor = sensorAndDistance.getKey();
@@ -54,7 +54,7 @@ public class TemperatureReporter {
                 })
                 .collect(Collectors.toList());
 
-        return new TemperatureQueryResult(temperature, sensorsAsDTO);
+        return new SampleQueryResult(temperature, sensorsAsDTO);
     }
 
     private double calculateMedian(List<Sample> samplesFromClosestSensors) {

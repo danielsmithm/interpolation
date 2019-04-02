@@ -1,6 +1,6 @@
 package br.ufrn.interpolation.web.configuration;
 
-import br.ufrn.interpolation.application.TemperatureReporter;
+import br.ufrn.interpolation.application.SampleReporter;
 import br.ufrn.interpolation.domain.sample.SampleRepository;
 import br.ufrn.interpolation.domain.sensor.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class ApplicationLayerConfiguration {
     }
 
     @Bean
-    public TemperatureReporter temperatureReporter(){
-        return new TemperatureReporter(sampleRepository, sensorRepository);
+    public SampleReporter temperatureReporter(){
+        return new SampleReporter(sampleRepository, sensorRepository);
     }
 
 }

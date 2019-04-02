@@ -1,15 +1,15 @@
 package br.ufrn.interpolation.jmh;
 
-import br.ufrn.interpolation.application.TemperatureReporterTests;
+import br.ufrn.interpolation.application.SampleReporterTests;
 import org.openjdk.jmh.annotations.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
-public class TemperatureReporterJmhTests {
+public class SampleReporterJmhTests {
 
-    TemperatureReporterTests temperatureReporterTests = new TemperatureReporterTests();
+    SampleReporterTests temperatureReporterTests = new SampleReporterTests();
 
     {
         try {

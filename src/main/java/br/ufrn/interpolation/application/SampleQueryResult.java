@@ -2,13 +2,13 @@ package br.ufrn.interpolation.application;
 
 import java.util.List;
 
-public class TemperatureQueryResult {
+public class SampleQueryResult {
 
     private double temperatureValue;
 
     private List<SensorDTO> sensorDTOS;
 
-    public TemperatureQueryResult(double temperatureValue, List<SensorDTO> sensorDTOS) {
+    public SampleQueryResult(double temperatureValue, List<SensorDTO> sensorDTOS) {
         this.temperatureValue = temperatureValue;
         this.sensorDTOS = sensorDTOS;
     }
@@ -26,7 +26,7 @@ public class TemperatureQueryResult {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TemperatureQueryResult that = (TemperatureQueryResult) o;
+        SampleQueryResult that = (SampleQueryResult) o;
 
         return Double.compare(that.temperatureValue, temperatureValue) == 0;
     }

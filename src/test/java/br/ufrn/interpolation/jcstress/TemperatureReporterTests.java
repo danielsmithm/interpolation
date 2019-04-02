@@ -1,7 +1,7 @@
 package br.ufrn.interpolation.jcstress;
 
-import br.ufrn.interpolation.application.TemperatureQueryResult;
-import br.ufrn.interpolation.application.TemperatureReporter;
+import br.ufrn.interpolation.application.SampleQueryResult;
+import br.ufrn.interpolation.application.SampleReporter;
 import br.ufrn.interpolation.infrastructure.repository.sample.SampleInMemoryRepository;
 import br.ufrn.interpolation.infrastructure.repository.sensor.SensorInMemoryRepository;
 import org.openjdk.jcstress.annotations.*;
@@ -17,14 +17,14 @@ public class TemperatureReporterTests {
     @State
     public static class MyState {
 
-        public TemperatureReporter objectUnderTests = getTemperatureReporter();
+        public SampleReporter objectUnderTests = getTemperatureReporter();
 
         public MyState() {
         }
 
-        public TemperatureReporter getTemperatureReporter() {
+        public SampleReporter getTemperatureReporter() {
             try {
-                return new TemperatureReporter(SampleInMemoryRepository.fromFile(
+                return new SampleReporter(SampleInMemoryRepository.fromFile(
                         Paths.get("src", "test", "resources", "samples", "data.csv")),
                         SensorInMemoryRepository.fromFile(Paths.get("src", "test", "resources", "samples", "sensors.csv")));
             } catch (IOException e) {
@@ -44,7 +44,7 @@ public class TemperatureReporterTests {
             double latitude = 54.964936;
             double longitude = -1.779070;
 
-            TemperatureQueryResult queryResult = myState.objectUnderTests.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
+            SampleQueryResult queryResult = myState.objectUnderTests.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
 
             r.r1 = queryResult.hashCode();
         }
@@ -54,7 +54,7 @@ public class TemperatureReporterTests {
             double latitude = 54.964936;
             double longitude = -1.779070;
 
-            TemperatureQueryResult queryResult = myState.objectUnderTests.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
+            SampleQueryResult queryResult = myState.objectUnderTests.evaluateTemperature(latitude, longitude, LocalDateTime.of(2018, 7, 31, 23, 4));
 
             r.r2 = queryResult.hashCode();
         }
