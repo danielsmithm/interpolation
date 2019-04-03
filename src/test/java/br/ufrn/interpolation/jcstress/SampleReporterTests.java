@@ -7,12 +7,13 @@ import br.ufrn.interpolation.infrastructure.repository.sensor.SensorInMemoryRepo
 import org.openjdk.jcstress.annotations.*;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import org.openjdk.jcstress.infra.results.II_Result;
 
-public class TemperatureReporterTests {
+public class SampleReporterTests {
 
     @State
     public static class MyState {
@@ -28,7 +29,7 @@ public class TemperatureReporterTests {
                         Paths.get("src", "test", "resources", "samples", "data.csv")),
                         SensorInMemoryRepository.fromFile(Paths.get("src", "test", "resources", "samples", "sensors.csv")));
             } catch (IOException e) {
-                throw new RuntimeException();
+                throw new UncheckedIOException(e);
             }
         }
 
@@ -36,7 +37,8 @@ public class TemperatureReporterTests {
 
     @Description("test racily getting temperature")
     @JCStressTest
-    @Outcome(id = "[642318336, 642318336]", expect = Expect.ACCEPTABLE, desc = "get back expected character 'a' and character 'b'")
+    @Outcome(id = {"642318336"}, expect = Expect.ACCEPTABLE)
+    @Outcome(id = {"642318336, 642318336"}, expect = Expect.ACCEPTABLE)
     public static class StressTest2 {
 
         @Actor

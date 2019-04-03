@@ -2,6 +2,7 @@ package br.ufrn.interpolation.infrastructure.repository.sample;
 
 import br.ufrn.interpolation.domain.sample.Sample;
 import br.ufrn.interpolation.infrastructure.utils.CsvParser;
+import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,6 +24,12 @@ public class SampleCSVParser {
     private static final short VALUE_POSITION = 4;
 
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    private CsvParser parsingStrategy;
+
+    public SampleCSVParser(CsvParser parsingStrategy) {
+        this.parsingStrategy = parsingStrategy;
+    }
 
     /**
      * Parse a row from the csv file to a <code>Sample</code>.
@@ -61,7 +68,7 @@ public class SampleCSVParser {
      * @throws IOException if any exception occur with the file reading.
      */
     public Collection<Sample> parseFile(Path filePath) throws IOException {
-        return new CsvParser().parseFileUsingThreads(filePath, this::parseToSample);
+        return parsingStrategy.parseFile(filePath, this::parseToSample);
     }
 
 }

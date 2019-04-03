@@ -3,11 +3,11 @@ package br.ufrn.interpolation.infrastructure.repository.sensor;
 import br.ufrn.interpolation.domain.sensor.Sensor;
 import br.ufrn.interpolation.domain.sensor.SensorRepository;
 import br.ufrn.interpolation.domain.DistanceCalculator;
+import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -17,12 +17,12 @@ public class SensorInMemoryRepository implements SensorRepository {
 
     private final Collection<Sensor> sensorCollection;
 
-    private SensorInMemoryRepository(Collection<Sensor> sensorCollection) {
+    public SensorInMemoryRepository(Collection<Sensor> sensorCollection) {
         this.sensorCollection = new CopyOnWriteArrayList<>(sensorCollection);
     }
 
     public static SensorInMemoryRepository fromFile(Path filePath) throws IOException {
-        SensorCSVParser sensorCSVParser = new SensorCSVParser();
+        SensorCSVParser sensorCSVParser = new SensorCSVParser(new CsvParserSequential());
 
         return new SensorInMemoryRepository(sensorCSVParser.parseFile(filePath));
     }

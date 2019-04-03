@@ -6,7 +6,7 @@ import org.openjdk.jmh.annotations.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class SampleCSVParsingTests {
+public class SampleCSVSequentialParsingTests {
 
     @Benchmark
     @Fork(value = 1, warmups = 2)
@@ -16,7 +16,7 @@ public class SampleCSVParsingTests {
     public void run() throws IOException {
         SampleCSVParserTest sampleCSVParserTest = new SampleCSVParserTest();
 
-        sampleCSVParserTest.testParseFromSmallCSVFile();
+        sampleCSVParserTest.testParseCSVUsingSequentialStrategy();
     }
 
 }

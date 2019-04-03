@@ -4,11 +4,13 @@ import br.ufrn.interpolation.application.SampleReporter;
 import br.ufrn.interpolation.application.SampleQueryResult;
 import br.ufrn.interpolation.web.controller.request.TemperatureReportRequest;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Lazy
 @RestController
 @RequestMapping("/temperature")
 public class SampleReportController {

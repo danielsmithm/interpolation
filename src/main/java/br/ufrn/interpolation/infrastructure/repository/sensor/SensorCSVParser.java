@@ -2,6 +2,7 @@ package br.ufrn.interpolation.infrastructure.repository.sensor;
 
 import br.ufrn.interpolation.domain.sensor.Sensor;
 import br.ufrn.interpolation.infrastructure.utils.CsvParser;
+import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -32,6 +33,12 @@ public class SensorCSVParser {
     private static final byte TYPE_POSITION = 7;
     private static final byte LONGITUDE_POSITION = 8;
     private static final byte LATITUDE_POSITION = 9;
+
+    private CsvParser parsingStrategy;
+
+    public SensorCSVParser(CsvParser parsingStrategy){
+        this.parsingStrategy = parsingStrategy;
+    }
 
     public Sensor parseToSensor(String row){
 
@@ -77,7 +84,7 @@ public class SensorCSVParser {
     }
 
     public Collection<Sensor> parseFile(Path filePath) throws IOException {
-        return new CsvParser().parseFileUsingThreads(filePath, this::parseToSensor);
+        return parsingStrategy.parseFile(filePath, this::parseToSensor);
     }
 
 }

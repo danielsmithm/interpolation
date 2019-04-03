@@ -1,6 +1,7 @@
 package br.ufrn.interpolation.domain.sensor;
 
 import br.ufrn.interpolation.infrastructure.repository.sensor.SensorCSVParser;
+import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -21,7 +22,7 @@ public class SensorCSVParserTests {
         String sensorRow = "99.5923600049,True,\"{'third_party': True, 'fancy_name': 'Wunderground API', 'web_display_name': 'Wunderground API (Third Party)', 'db_name': 'Wunderground', 'document': ''}\",None,ICRAWCRO3,2018-08-29 18:09:00,Weather,-1.778519,54.965347";
 
         //base_height,active,source,sensor_height,name,latest,type,lon,lat
-        Sensor sensor = new SensorCSVParser().parseToSensor(sensorRow);
+        Sensor sensor = new SensorCSVParser(new CsvParserSequential()).parseToSensor(sensorRow);
 
         //TODO: Source
         assertEquals(99.5923600049, sensor.getBaseHeight(),0.0000000000000);
@@ -38,7 +39,7 @@ public class SensorCSVParserTests {
     public void testParseCsvSensorFileToSensorCollection() throws Exception {
         Path path = Paths.get("src","test","resources", "samples", "sensors.csv");
 
-        Collection<Sensor> sensors = new SensorCSVParser().parseFile(path);
+        Collection<Sensor> sensors = new SensorCSVParser(new CsvParserSequential()).parseFile(path);
 
         assertNotNull(sensors);
     }

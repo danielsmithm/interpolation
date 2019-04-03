@@ -6,10 +6,12 @@ import br.ufrn.interpolation.domain.sample.SampleRepository;
 import br.ufrn.interpolation.domain.sensor.SensorRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
+@Lazy
 @Configuration
 public class InfrastructureLayerConfiguration {
 
