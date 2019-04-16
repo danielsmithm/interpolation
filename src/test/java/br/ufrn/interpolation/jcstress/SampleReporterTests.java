@@ -26,8 +26,8 @@ public class SampleReporterTests {
         public SampleReporter getTemperatureReporter() {
             try {
                 return new SampleReporter(SampleInMemoryRepository.fromFile(
-                        Paths.get("src", "test", "resources", "samples", "data.csv")),
-                        SensorInMemoryRepository.fromFile(Paths.get("src", "test", "resources", "samples", "sensors.csv")));
+                        Paths.get("src", "main", "resources", "samples", "data.csv")),
+                        SensorInMemoryRepository.fromFile(Paths.get("src", "main", "resources", "samples", "sensors.csv")));
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }

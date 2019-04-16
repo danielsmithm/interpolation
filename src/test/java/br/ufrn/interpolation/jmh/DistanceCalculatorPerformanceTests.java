@@ -7,7 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 public class DistanceCalculatorPerformanceTests {
 
-    
+    @Benchmark
+    @Fork(value = 1, warmups = 2)
+    @BenchmarkMode(Mode.AverageTime)
+    @Warmup(iterations = 1)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
     public void run(){
         new DistanceCalculatorTests().calculateDistanceOfPointsCloseToIMD();
     }

@@ -45,7 +45,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingSequentialStrategy() throws IOException {
-        Path path = Paths.get("src","test","resources", "samples", "data.csv");
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserSequential()).parseFile(path);
 
@@ -56,7 +56,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingThreadStrategy() throws IOException {
-        Path path = Paths.get("src","test","resources", "samples", "data.csv");
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserThreads()).parseFile(path);
 
@@ -67,7 +67,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingParallelStreamStrategy() throws IOException {
-        Path path = Paths.get("src","test","resources", "samples", "data.csv");
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserParallelStream()).parseFile(path);
 
