@@ -1,6 +1,7 @@
 package br.ufrn.interpolation.jcstress;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -39,21 +40,31 @@ public class CsvParserParallelStreamTests {
     public static class StressTest2 {
     	
         @Actor
-        public void actor1(TestState state, II_Result r) throws IOException {
+        public void actor1(TestState state, II_Result r) {
            
             Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
-            Collection<Sample> samples = state.objectUnderTests.parseFile(path);
-            
+            Collection<Sample> samples = null;
+            try {
+                samples = state.objectUnderTests.parseFile(path);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+
             r.r1 = samples.size();
         }
 
         @Actor
-        public void actor2(TestState state, II_Result r) throws IOException {
+        public void actor2(TestState state, II_Result r){
         	Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
-        	Collection<Sample> samples = state.objectUnderTests.parseFile(path);
-            
+            Collection<Sample> samples = null;
+            try {
+                samples = state.objectUnderTests.parseFile(path);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+
             r.r2 = samples.size();
         }
 
