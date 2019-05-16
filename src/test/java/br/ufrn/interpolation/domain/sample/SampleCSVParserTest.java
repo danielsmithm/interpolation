@@ -1,9 +1,8 @@
 package br.ufrn.interpolation.domain.sample;
 
 import br.ufrn.interpolation.infrastructure.repository.sample.SampleCSVParser;
-import br.ufrn.interpolation.infrastructure.utils.CsvParserParallelStream;
-import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
-import br.ufrn.interpolation.infrastructure.utils.CsvParserThreads;
+import br.ufrn.interpolation.infrastructure.utils.*;
+import br.ufrn.interpolation.web.configuration.ExecutorServiceConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -13,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.concurrent.ForkJoinPool;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -70,6 +70,64 @@ public class SampleCSVParserTest {
         Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserParallelStream()).parseFile(path);
+
+        assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
+    }
+
+    @Test
+    public void testParseCSVUsingParallelStreamStrategyAnd12ThreadsInForkJoinPool() throws IOException {
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "12");
+
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
+
+        Collection<Sample> samples = new SampleCSVParser(new CsvParserParallelStream()).parseFile(path);
+
+        System.out.println(samples.hashCode());
+        assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
+    }
+
+    @Test
+    public void testParseCSVUsingForkJoinRecursiveActionStrategy() throws IOException {
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
+
+        Collection<Sample> samples = new SampleCSVParser(new CsvParserForkJoinRecursiveAction(ForkJoinPool.commonPool())).parseFile(path);
+
+        assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
+    }
+
+    @Test
+    public void testParseCSVUsingForkJoinRecursiveTaskStrategy() throws IOException {
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
+
+        Collection<Sample> samples = new SampleCSVParser(new CsvParserForkRecursiveTask(ForkJoinPool.commonPool())).parseFile(path);
+
+        assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
+    }
+
+    @Test
+    public void testParseCSVUsingExecutorAndRunnable() throws IOException {
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
+
+        Collection<Sample> samples = new SampleCSVParser(new CsvParserExecutorUsingRunnable(new ExecutorServiceConfiguration().cpuOperationsExecutorService())).parseFile(path);
+
+        assertNotNull(samples);
+        assertEquals(953768,samples.size());
+
+    }
+
+    @Test
+    public void testParseCSVUsingExecutorAndCallable() throws IOException {
+        Path path = Paths.get("src","main","resources", "samples", "data.csv");
+
+        Collection<Sample> samples = new SampleCSVParser(new CsvParserExecutorUsingCallable(new ExecutorServiceConfiguration().cpuOperationsExecutorService())).parseFile(path);
 
         assertNotNull(samples);
         assertEquals(953768,samples.size());
