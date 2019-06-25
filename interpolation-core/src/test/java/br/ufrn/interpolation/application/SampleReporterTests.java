@@ -21,8 +21,8 @@ public class SampleReporterTests {
     @Before
     public void setup() throws IOException {
         this.sampleReporter = new SampleReporter(SampleInMemoryRepository.fromFile(
-                Paths.get("src","main","resources", "src/main/resources/samples", "data.csv")),
-                SensorInMemoryRepository.fromFile(Paths.get("src","main","resources", "src/main/resources/samples", "sensors.csv")));
+                Paths.get("src","main","resources", "samples", "data.csv")),
+                SensorInMemoryRepository.fromFile(Paths.get("src","main","resources", "samples", "sensors.csv")));
     }
 
     @Test

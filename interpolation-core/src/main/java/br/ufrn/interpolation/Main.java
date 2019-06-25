@@ -1,4 +1,4 @@
-package br.ufrn.interpolation.web;
+package br.ufrn.interpolation;
 
 
 import org.springframework.boot.SpringApplication;

@@ -46,7 +46,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingSequentialStrategy() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserSequential()).parseFile(path);
 
@@ -57,7 +57,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingThreadStrategy() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserThreads()).parseFile(path);
 
@@ -68,7 +68,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingParallelStreamStrategy() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserParallelStream()).parseFile(path);
 
@@ -81,7 +81,7 @@ public class SampleCSVParserTest {
     public void testParseCSVUsingParallelStreamStrategyAnd12ThreadsInForkJoinPool() throws IOException {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "12");
 
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserParallelStream()).parseFile(path);
 
@@ -93,7 +93,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingForkJoinRecursiveActionStrategy() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserForkJoinRecursiveAction(ForkJoinPool.commonPool())).parseFile(path);
 
@@ -104,7 +104,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingForkJoinRecursiveTaskStrategy() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         Collection<Sample> samples = new SampleCSVParser(new CsvParserForkRecursiveTask(ForkJoinPool.commonPool())).parseFile(path);
 
@@ -115,7 +115,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingExecutorAndRunnable() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         ExecutorService executorService = new ExecutorServiceConfiguration().cpuOperationsExecutorService();
         try {
@@ -131,7 +131,7 @@ public class SampleCSVParserTest {
 
     @Test
     public void testParseCSVUsingExecutorAndCallable() throws IOException {
-        Path path = Paths.get("src", "main", "resources", "src/main/resources/samples", "data.csv");
+        Path path = Paths.get("src", "main", "resources", "samples", "data.csv");
 
         ExecutorService executorService = new ExecutorServiceConfiguration().cpuOperationsExecutorService();
         try {

@@ -37,7 +37,7 @@ public class SensorCSVParserTests {
 
     @Test
     public void testParseCsvSensorFileToSensorCollection() throws Exception {
-        Path path = Paths.get("src","main","resources", "src/main/resources/samples", "sensors.csv");
+        Path path = Paths.get("src","main","resources", "samples", "sensors.csv");
 
         Collection<Sensor> sensors = new SensorCSVParser(new CsvParserSequential()).parseFile(path);
 

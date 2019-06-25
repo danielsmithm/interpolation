@@ -40,7 +40,7 @@ public class CsvParserParallelStreamTests {
         @Actor
         public void actor1(TestState state, II_Result r) {
            
-            Path path = Paths.get("src","main","resources", "src/main/resources/samples", "data.csv");
+            Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
             Collection<Sample> samples = null;
             try {
@@ -54,7 +54,7 @@ public class CsvParserParallelStreamTests {
 
         @Actor
         public void actor2(TestState state, II_Result r){
-        	Path path = Paths.get("src","main","resources", "src/main/resources/samples", "data.csv");
+        	Path path = Paths.get("src","main","resources", "samples", "data.csv");
 
             Collection<Sample> samples = null;
             try {

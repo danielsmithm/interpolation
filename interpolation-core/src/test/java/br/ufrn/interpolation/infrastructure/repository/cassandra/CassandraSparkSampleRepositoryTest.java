@@ -4,11 +4,7 @@ import br.ufrn.interpolation.domain.sample.Sample;
 import br.ufrn.interpolation.infrastructure.parsers.SampleCSVParser;
 import br.ufrn.interpolation.infrastructure.repository.cassandra.connector.CassandraConnector;
 import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
-import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.SparkSession;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -48,7 +44,7 @@ public class CassandraSparkSampleRepositoryTest {
 
         sc.close();*/
 
-        SparkSession spark = SparkSession.builder().appName("SparkApp").config("spark.master", "local").getOrCreate();
+        //SparkSession spark = SparkSession.builder().appName("SparkApp").config("spark.master", "local").getOrCreate();
     }
 
     @Test

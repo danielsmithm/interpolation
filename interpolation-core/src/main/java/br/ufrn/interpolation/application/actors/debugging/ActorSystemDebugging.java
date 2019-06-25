@@ -20,7 +20,7 @@ public class ActorSystemDebugging {
         final ActorRef parseActor = system.actorOf(Props.create(ParseActor.class, () -> ParseActor.create(() ->  new PersistenceActor(new CassandraSparkSampleRepository(new CassandraConnector())), new SampleCSVParser(new CsvParserSequential()))));
         final ActorRef readingActor = system.actorOf(Props.create(ReadFileActor.class, () -> new ReadFileActor(new CsvParserSequential(), parseActor)));
 
-        readingActor.tell(new ReadFileActor.ReadFileMessage(Paths.get("src", "main", "resources", "src/main/resources/samples", "samples.csv")), ActorRef.noSender());
+        readingActor.tell(new ReadFileActor.ReadFileMessage(Paths.get("interpolation-core","src", "main", "resources", "samples", "samples.csv")), ActorRef.noSender());
 
     }
 }

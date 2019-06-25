@@ -3,10 +3,12 @@ package br.ufrn.interpolation.infrastructure.repository.cassandra;
 import br.ufrn.interpolation.domain.sample.Sample;
 import br.ufrn.interpolation.domain.sample.SampleRepository;
 import br.ufrn.interpolation.infrastructure.repository.cassandra.connector.CassandraConnector;
+import br.ufrn.interpolation.infrastructure.repository.memory.SampleInMemoryRepository;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.Session;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,6 +18,7 @@ public class CassandraSparkSampleRepository implements SampleRepository {
 
     private static final String INSERT_STATEMENT = "insert into interpolation.sample (id, sensorName, variable, units, time, value) values (uuid(),?, ?, ?, ?, ?);";
     public static final int CHUNK_SIZE = 100;
+    private static final SampleInMemoryRepository cache = new SampleInMemoryRepository(new CopyOnWriteArrayList<>());
 
     public CassandraSparkSampleRepository(CassandraConnector cassandraConnector) {
 
@@ -23,7 +26,7 @@ public class CassandraSparkSampleRepository implements SampleRepository {
 
     @Override
     public List<Sample> findFromPredicate(Predicate<Sample> predicate) {
-        return null;
+        return cache.findFromPredicate(predicate);
     }
 
     @Override
@@ -36,6 +39,7 @@ public class CassandraSparkSampleRepository implements SampleRepository {
             session.execute(preparedStatement.bind(sample.getSensorName(), sample.getVariable(), sample.getUnits(), java.sql.Timestamp.valueOf(sample.getTime()), sample.getValue()));
         }
 
+        cache.save(sample);
     }
 
     @Override
@@ -45,6 +49,8 @@ public class CassandraSparkSampleRepository implements SampleRepository {
         for(int i = 0; i< lists.size(); i++){
             insertBatch(lists.get(0));
         }
+
+        cache.save(sampleCollection);
 
     }
 

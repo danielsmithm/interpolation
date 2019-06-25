@@ -80,11 +80,11 @@ public class SampleReportJMeterController {
     }
 
     private SampleRepository createSampleRepository(SampleCSVParser sampleCSVParser) throws IOException {
-        return new SampleInMemoryRepository(sampleCSVParser.parseFile(Paths.get("src","main","resources", "src/main/resources/samples", "data.csv")));
+        return new SampleInMemoryRepository(sampleCSVParser.parseFile(Paths.get("src","main","resources", "samples", "data.csv")));
     }
 
     private SensorRepository createSensorRepository(SensorCSVParser sensorCSVParser) throws IOException {
-        return new SensorInMemoryRepository(sensorCSVParser.parseFile(Paths.get("src","main","resources", "src/main/resources/samples", "sensors.csv")));
+        return new SensorInMemoryRepository(sensorCSVParser.parseFile(Paths.get("src","main","resources", "samples", "sensors.csv")));
     }
 
 
