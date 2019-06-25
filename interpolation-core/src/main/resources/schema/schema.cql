@@ -18,5 +18,3 @@ CREATE TABLE sensor (id uuid primary key,
                      type varchar,
                      longitude double,
                      latitude double);
-                     
-select * from interpolation.sample
