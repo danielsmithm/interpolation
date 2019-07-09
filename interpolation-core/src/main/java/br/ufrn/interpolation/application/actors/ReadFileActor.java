@@ -2,7 +2,7 @@ package br.ufrn.interpolation.application.actors;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import br.ufrn.interpolation.infrastructure.utils.CsvParserSequential;
+import br.ufrn.interpolation.domain.utils.CsvParser;
 
 import java.nio.file.Path;
 import java.util.function.Function;
@@ -10,9 +10,9 @@ import java.util.function.Function;
 public class ReadFileActor extends AbstractActor {
 
     private final ActorRef parseActor;
-    private CsvParserSequential csvParserSequential;
+    private CsvParser csvParserSequential;
 
-    public ReadFileActor(CsvParserSequential csvParserSequential, ActorRef parseActor) {
+    public ReadFileActor(CsvParser csvParserSequential, ActorRef parseActor) {
         this.csvParserSequential = csvParserSequential;
         this.parseActor = parseActor;
     }

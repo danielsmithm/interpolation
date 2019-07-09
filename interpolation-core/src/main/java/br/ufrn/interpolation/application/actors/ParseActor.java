@@ -9,53 +9,53 @@ import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Routee;
 import akka.routing.Router;
 import br.ufrn.interpolation.domain.sample.Sample;
-import br.ufrn.interpolation.infrastructure.parsers.SampleCSVParser;
-import br.ufrn.interpolation.infrastructure.repository.cassandra.CassandraSparkSampleRepository;
-import br.ufrn.interpolation.infrastructure.repository.cassandra.Partition;
-import br.ufrn.interpolation.infrastructure.repository.cassandra.connector.CassandraConnector;
+import br.ufrn.interpolation.domain.sample.SampleParser;
+import br.ufrn.interpolation.domain.utils.Partition;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ParseActor extends AbstractActor {
 
     private final Creator<PersistenceActor> persistenceActorFactory;
-    private SampleCSVParser sampleCSVParser;
+    private SampleParser sampleCSVParser;
 
-    private ParseActor(Creator<PersistenceActor> persistenceActorFactory, SampleCSVParser sampleCSVParser) {
+    private ParseActor(Creator<PersistenceActor> persistenceActorFactory, SampleParser sampleCSVParser) {
         this.persistenceActorFactory = persistenceActorFactory;
         this.sampleCSVParser = sampleCSVParser;
     }
 
-    public static ParseActor create(Creator<PersistenceActor> persistenceActorFactory, SampleCSVParser sampleCSVParser) {
+    public static ParseActor create(Creator<PersistenceActor> persistenceActorFactory, SampleParser sampleCSVParser) {
         return new ParseActor(persistenceActorFactory, sampleCSVParser);
     }
 
     @Override
     public AbstractActor.Receive createReceive() {
         return receiveBuilder()
-                .match(ParseMessage.class, parseMessage -> {
-
-                    Partition<Sample> partition = Partition.ofSize(parseMessage.rowsToParse.stream().map(sampleCSVParser::parseToSample).collect(Collectors.toList()), 1000);
-
-                    List<Routee> persistenceActors = new ArrayList<>();
-                    for (int i = 0; i < partition.size(); i++) {
-                        ActorRef persistenceActor = getContext().actorOf(Props.create(PersistenceActor.class, persistenceActorFactory));
-                        this.getContext().watch(persistenceActor);
-                        persistenceActors.add(new ActorRefRoutee(persistenceActor));
-                    }
-
-                    Router persistentenceRouter = new Router(new RoundRobinRoutingLogic(), persistenceActors);
-
-                    for (int i = 0; i < partition.size(); i++) {
-                        persistentenceRouter.route(new PersistenceActor.PersistenceMessage(partition.get(i)), getSelf());
-                    }
-                })
+                .match(ParseMessage.class, this::parseAndPersist)
                 .build();
+    }
+
+    private ActorRefRoutee createPersistenceActorRoutee(ActorRef persistenceActor) {
+        this.getContext().watch(persistenceActor);
+        return new ActorRefRoutee(persistenceActor);
+    }
+
+    private void parseAndPersist(ParseMessage parseMessage) {
+        List<Sample> samples = parseMessage.rowsToParse.stream().map(sampleCSVParser::parseToSample).collect(Collectors.toList());
+
+        Partition<Sample> partition = Partition.ofSize(samples, 1000);
+
+        List<Routee> persistenceActors = IntStream.range(0, partition.size())
+                .mapToObj(i -> getContext().actorOf(Props.create(PersistenceActor.class, persistenceActorFactory)))
+                .map(this::createPersistenceActorRoutee)
+                .collect(Collectors.toList());
+
+        Router persistenceRouter = new Router(new RoundRobinRoutingLogic(), persistenceActors);
+
+        partition.forEach(samplesSlice -> persistenceRouter.route(new PersistenceActor.PersistenceMessage(samplesSlice), getSelf()));
     }
 
     public static final class ParseMessage {
